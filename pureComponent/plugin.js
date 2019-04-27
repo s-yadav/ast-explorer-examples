@@ -6,12 +6,13 @@ export default function(babel) {
     visitor: {
       MemberExpression(path) {
         const { node } = path;
+        const { object, property } = node;
+        const isReactComponent = object.name === 'React' && property.name === 'Component';
         const isSuperClass = path.parent.superClass === node;
-
-        if (isSuperClass) {
-          node.property = t.Identifier("PureComponent");
+        if (isReactComponent && isSuperClass) {
+          node.property = t.Identifier('PureComponent');
         }
       }
     }
-  }
+  };
 }

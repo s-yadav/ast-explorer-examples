@@ -9,7 +9,9 @@ export default function(babel) {
         const returnStatementIndex = node.body.body.findIndex(function(part) {
           return t.isReturnStatement(part);
         });
-        node.body.body = node.body.body.slice(0, returnStatementIndex + 1);
+        if (returnStatementIndex === -1) {
+          node.body.body = node.body.body.slice(0, returnStatementIndex + 1);
+        }
       }
     }
   };
